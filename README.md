@@ -2,6 +2,7 @@
 For the purpose of improving StyleTTS2 performance, this repo trains a [JDC-PitchExtractor](https://github.com/yl4579/PitchExtractor) and treats it as a baseline to compare against future arcchitectural tweaks. 
 
 ## Baseline results
+The experiment was restarted a few times and continued, so the graph became discontinous.
 <img width="1094" height="744" alt="image" src="https://github.com/user-attachments/assets/e81f402a-dd78-4032-bf96-c9e8873f17ec" />
 F0 validation results are dataset dependent but seem to be comparable in variation to the [range achived by others](https://github.com/yl4579/PitchExtractor/issues/4#issue-1292209152)
 
