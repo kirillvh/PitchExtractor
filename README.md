@@ -6,7 +6,7 @@ For the purpose of improving StyleTTS2 performance, this repo trains a [JDC-Pitc
 F0 validation results are dataset dependent but seem to be comparable in variation to the [range achived by others](https://github.com/yl4579/PitchExtractor/issues/4#issue-1292209152)
 
 ## Ideas for Tweaks
-1. Currently the ResNet Model is quite old and may be improved by a ConvNextV2 model and imroved activation functionss such as EUAF.
+1. Currently the ResNet Model is quite old and may be improved by a [ConvNextV2](https://arxiv.org/abs/2301.00808) model and improved activation functionss such as [EUAF](https://arxiv.org/abs/2407.09580).
 2. The F0 groundtruth extractors, Harvest and DIO are also quite old and [extensive benchmarks](https://github.com/lars76/pitch-benchmark) suggest that CREPE may offer better F0 accuracy.
 
 ## Pre-requisites
