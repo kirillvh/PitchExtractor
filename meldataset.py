@@ -6,17 +6,22 @@ TODO:
 """
 
 import os
+import sys
 import os.path as osp
 import time
 import random
 import numpy as np
 import random
 import soundfile as sf
+import os.path
 import torch
 from torch import nn
 import torch.nn.functional as F
 import torchaudio
 from torch.utils.data import DataLoader
+import librosa
+from audiomentations import Compose, AddGaussianSNR, TanhDistortion, AirAbsorption, PolarityInversion
+import numpy as np
 
 import pyworld as pw
 
@@ -81,12 +86,16 @@ class MelDataset(torch.utils.data.Dataset):
                 print('Computing F0 for ' + path + '...')
             x = wave_tensor.numpy().astype("double")
             frame_period = MEL_PARAMS['hop_length'] * 1000 / self.sr
-            _f0, t = pw.harvest(x, self.sr, frame_period=frame_period)
-            if sum(_f0 != 0) < self.bad_F0: # this happens when the algorithm fails
-                _f0, t = pw.dio(x, self.sr, frame_period=frame_period) # if harvest fails, try dio
-            f0 = pw.stonemask(x, _f0, t, self.sr)
+            try:
+                _f0, t = pw.harvest(x, self.sr, frame_period=frame_period)
+                if sum(_f0 != 0) < self.bad_F0: # this happens when the algorithm fails
+                    _f0, t = pw.dio(x, self.sr, frame_period=frame_period) # if harvest fails, try dio
+                f0 = pw.stonemask(x, _f0, t, self.sr)
+                np.save(output_file, f0)
+            except:
+                print("########## path failed!: ######## ",path)
+                sys.exit(1)
             # save the f0 info for later use
-            np.save(output_file, f0)
         
         f0 = torch.from_numpy(f0).float()
         
@@ -126,7 +135,30 @@ class MelDataset(torch.utils.data.Dataset):
 
     def _load_tensor(self, data):
         wave_path = data
+        if not os.path.isfile(wave_path):
+            print("wave_path failed: ",wave_path)
         wave, sr = sf.read(wave_path)
+        #remove stereo
+        if wave.shape[-1] == 2:
+            wave = wave[:, 0].squeeze()
+        
+        #downsample
+        if sr != 24000:
+            try:
+                wave = librosa.resample(wave, orig_sr=sr, target_sr=24000)
+            except:
+                print("wave_path failed: ",wave_path)
+
+        #augment
+        augment = Compose([
+            AddGaussianSNR(min_snr_db=5.0, max_snr_db=40.0, p=0.2),
+            PolarityInversion(p=0.2),
+            TanhDistortion(min_distortion=0.01, max_distortion=0.7, p=0.2),
+            AirAbsorption(min_distance=10.0, max_distance=50.0, p=0.2,),
+        ])
+        # Augment/transform/perturb the audio data
+        wave = augment(samples=wave, sample_rate=24000)
+        # To Tensor
         wave_tensor = torch.from_numpy(wave).float()
         return wave_tensor
 

@@ -33,9 +33,9 @@ def get_data_path_list(train_path=None, val_path=None):
     if val_path is None:
         val_path = "Data/val_list.txt"
 
-    with open(train_path, 'r') as f:
+    with open(train_path, 'r', encoding='UTF-8') as f:
         train_list = f.readlines()
-    with open(val_path, 'r') as f:
+    with open(val_path, 'r', encoding='UTF-8') as f:
         val_list = f.readlines()
 
     # train_list = train_list[-500:]
@@ -116,12 +116,14 @@ def main(config_path):
                                 load_only_params=config.get('load_only_params', True))
 
     # compute all F0 for training and validation data
-    print('Checking if all F0 data is computed...')
-    for _ in enumerate(train_dataloader):
-        continue
-    for _ in enumerate(val_dataloader):
-        continue
-    print('All F0 data is computed.')
+    # print('Checking if all F0 data is computed...')
+    # for _ in enumerate(train_dataloader):
+    #     continue
+    # for _ in enumerate(val_dataloader):
+    #     continue
+    # print('All F0 data is computed.')
+
+    print('Warning: Currently it is assumed that all F0 data was computed without checking!')
 
     for epoch in range(1, epochs+1):
             train_results = trainer._train_epoch()
