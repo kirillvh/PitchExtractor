@@ -1,5 +1,5 @@
 # JDC-PitchExtractor
-For the purpose of improving StyleTTS2 performance, this repo trains a [JDC-PitchExtractor]([https://github.com/yl4579/StarGANv2-VC](https://github.com/yl4579/PitchExtractor)) and treats it as a baseline to compare against future arcchitectural tweaks. 
+For the purpose of improving StyleTTS2 performance, this repo trains a [JDC-PitchExtractor](https://github.com/yl4579/PitchExtractor) and treats it as a baseline to compare against future arcchitectural tweaks. 
 
 ## Baseline results
 <img width="1094" height="744" alt="image" src="https://github.com/user-attachments/assets/e81f402a-dd78-4032-bf96-c9e8873f17ec" />
