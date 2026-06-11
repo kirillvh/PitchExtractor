@@ -1,5 +1,13 @@
 # JDC-PitchExtractor
-This repo contains the training code for deep neural pitch extractor for Voice Conversion (VC) and TTS used in [StarGANv2-VC](https://github.com/yl4579/StarGANv2-VC) and [StyleTTS](https://github.com/yl4579/StyleTTS). This is the F0 network in StarGANv2-VC and pitch extractor in StyleTTS. 
+For the purpose of improving StyleTTS2 performance, this repo trains a [JDC-PitchExtractor]([https://github.com/yl4579/StarGANv2-VC](https://github.com/yl4579/PitchExtractor)) and treats it as a baseline to compare against future arcchitectural tweaks. 
+
+## Baseline results
+<img width="1094" height="744" alt="image" src="https://github.com/user-attachments/assets/e81f402a-dd78-4032-bf96-c9e8873f17ec" />
+F0 validation results are dataset dependent but seem to be comparable in variation to the [range achived by others](https://github.com/yl4579/PitchExtractor/issues/4#issue-1292209152)
+
+## Ideas for Tweaks
+1. Currently the ResNet Model is quite old and may be improved by a ConvNextV2 model and imroved activation functionss such as EUAF.
+2. The F0 groundtruth extractors, Harvest and DIO are also quite old and [extensive benchmarks](https://github.com/lars76/pitch-benchmark) suggest that CREPE may offer better F0 accuracy.
 
 ## Pre-requisites
 1. Python >= 3.7
